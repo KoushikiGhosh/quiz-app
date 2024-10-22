@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Quiz App</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f4f4f4;
+      margin: 0;
+      padding: 0;
+    }
+    .quiz-container {
+      width: 60%;
+      margin: 0 auto;
+      background: #fff;
+      padding: 20px;
+      border-radius: 8px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+    h1 {
+      text-align: center;
+    }
+    .question {
+      font-size: 1.2em;
+      margin-bottom: 10px;
+    }
+    .options label {
+      display: block;
+      margin-bottom: 8px;
+    }
+    .btn {
+      display: block;
+      width: 100%;
+      padding: 10px;
+      background-color: #4CAF50;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      font-size: 16px;
+      cursor: pointer;
+      margin-top: 20px;
+    }
+    .btn:hover {
+      background-color: #45a049;
+    }
+  </style>
+</head>
+<body>
+
+<div class="quiz-container">
+  <h1>Quiz App</h1>
+  <div id="quiz"></div>
+  <button class="btn" id="submit">Submit Quiz</button>
+  <div id="result"></div>
+</div>
+
+<script>
+  const quizData = [
+    {
+      question: "What is the capital of France?",
+      a: "Berlin",
+      b: "Madrid",
+      c: "Paris",
+      d: "Rome",
+      correct: "c"
+    },
+    {
+      question: "Which planet is known as the Red Planet?",
+      a: "Earth",
+      b: "Mars",
+      c: "Jupiter",
+      d: "Saturn",
+      correct: "b"
+    },
+    {
+      question: "Who wrote 'Hamlet'?",
+      a: "Charles Dickens",
+      b: "William Shakespeare",
+      c: "Mark Twain",
+      d: "J.K. Rowling",
+      correct: "b"
+    },
+    {
+      question: "What is the largest ocean on Earth?",
+      a: "Atlantic Ocean",
+      b: "Indian Ocean",
+      c: "Pacific Ocean",
+      d: "Arctic Ocean",
+      correct: "c"
+    },
+    {
+      question: "What is the chemical symbol for water?",
+      a: "O2",
+      b: "CO2",
+      c: "H2O",
+      d: "He",
+      correct: "c"
+    },
+    {
+      question: "What is the tallest mountain in the world?",
+      a: "K2",
+      b: "Mount Everest",
+      c: "Kangchenjunga",
+      d: "Makalu",
+      correct: "b"
+    },
+    {
+      question: "Which element has the atomic number 1?",
+      a: "Helium",
+      b: "Oxygen",
+      c: "Hydrogen",
+      d: "Nitrogen",
+      correct: "c"
+    },
+    {
+      question: "In which year did World War I begin?",
+      a: "1914",
+      b: "1939",
+      c: "1945",
+      d: "1901",
+      correct: "a"
+    },
+    {
+      question: "What is the square root of 64?",
+      a: "6",
+      b: "7",
+      c: "8",
+      d: "9",
+      correct: "c"
+    },
+    {
+      question: "What is the capital of Japan?",
+      a: "Kyoto",
+      b: "Osaka",
+      c: "Tokyo",
+      d: "Hiroshima",
+      correct: "c"
+    }
+  ];
+
+  const quiz = document.getElementById('quiz');
+  const submitBtn = document.getElementById('submit');
+  const result = document.getElementById('result');
+
+  let currentQuiz = 0;
+  let score = 0;
+
+  function loadQuiz() {
+    const currentData = quizData[currentQuiz];
+    quiz.innerHTML = `
+      <div class="question">${currentData.question}</div>
+      <div class="options">
+        <label><input type="radio" name="answer" value="a"> ${currentData.a}</label>
+        <label><input type="radio" name="answer" value="b"> ${currentData.b}</label>
+        <label><input type="radio" name="answer" value="c"> ${currentData.c}</label>
+        <label><input type="radio" name="answer" value="d"> ${currentData.d}</label>
+      </div>
+    `;
+  }
+
+  function getSelected() {
+    const answers = document.querySelectorAll('input[name="answer"]');
+    let selectedAnswer;
+    answers.forEach(answer => {
+      if (answer.checked) {
+        selectedAnswer = answer.value;
+      }
+    });
+    return selectedAnswer;
+  }
+
+  submitBtn.addEventListener('click', () => {
+    const answer = getSelected();
+    if (answer) {
+      if (answer === quizData[currentQuiz].correct) {
+        score++;
+      }
+      currentQuiz++;
+      if (currentQuiz < quizData.length) {
+        loadQuiz();
+      } else {
+        quiz.innerHTML = '';
+        submitBtn.style.display = 'none';
+        result.innerHTML = `<h2>You answered ${score}/${quizData.length} questions correctly</h2>`;
+      }
+    } else {
+      alert('Please select an answer');
+    }
+  });
+
+  loadQuiz();
+</script>
+
+</body>
+</html>
